@@ -23,16 +23,16 @@ public class Encode {
 
     
     private static int length; //the max number of knots
-    private static int heapSize = 256; // the current amount of knots
-    int[] inputArray; //the array filled with the input gathered from the file
+    private static int heapSize = 255; // the current amount of knots
+    private static int[] inputArray; //the array filled with the input gathered from the file
     PQ heap = new PQHeap(256); //The heap (convert the array of integers to a heap in hoffman?)
-    
+    private static final int SIZE = 255;
 
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) throws FileNotFoundException, IOException {
-        int[] inputArray = new int[256];
+        inputArray = new int[SIZE];
         //doesnt read properly might be me typing wrong?
         File textFile = new File("/Users/sebastian/Documents/TextFiles/TextFileTest.txt"); 
         
@@ -43,18 +43,24 @@ public class Encode {
 	BitOutputStream out = new BitOutputStream(outFile);
         
         //scanner tool okay?
-        Scanner sc = new Scanner(inFile);
+        Scanner sc = new Scanner(textFile);
         
         // muligvis bruge while(in.readInt == instanceOf.Integer)
+        
         while(sc.hasNext()) {
+            System.out.println(in.readInt());
             int i = in.readInt(); 
             inputArray[i]++;
             
         }
         //is this okay? if not use minHeapify/minSort and maybe convert it to a heap?
         Arrays.sort(inputArray);
+        System.out.println(inputArray[0]);
+        System.out.println(inputArray[1]);
         
         HoffmanOrganizer(inputArray);
+        
+        
     }
     
     public static void HoffmanOrganizer(int[] C){
@@ -65,7 +71,7 @@ public class Encode {
         int i;
         //specified for loop for itteration
         for(i = 1 ;i<=n-1;i++){
-        Node[] binaryTree = new Node[256];
+        Node[] binaryTree = new Node[255];
         Element F = new Element(0,binaryTree);
         //counter necessary?
         int counter = i;
@@ -83,9 +89,9 @@ public class Encode {
         z.setFrequency(x.getFrequency() + y.getFrequency());
         
         //set nodes to the buttom of the binary tree (note to group: is this necessary?)
-        binaryTree[binaryTree.length-counter] = z;
-        binaryTree[binaryTree.length-counter+1] = x;
-        binaryTree[binaryTree.length-counter+2] = y;
+        binaryTree[counter] = z;
+        binaryTree[counter] = x;
+        binaryTree[counter] = y;
         
         //Setting the key for our element so it is the added amount of the frequency of both the nodes
         F.setKey(z.getFrequency());
@@ -99,7 +105,7 @@ public class Encode {
     //this method is rewritten from PQHeap to be able to sort a array of integers instead of an array of Elements (also removed the sorting)
     public static int MinExtract(int[] C){
         int min = C[1];
-        C[1] = C[heapSize];
+        C[1] = C[heapSize-1];
         heapSize = heapSize - 1;
 //         minHeapify(1);
          return min;
