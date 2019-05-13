@@ -78,7 +78,7 @@ public class Encode {
         
         Node y = new Node(MinExtract(Q));
         z.setRightChield(y);
-        
+        //test
         //setting the parents frequency to be equal to both the childrens added together
         z.setFrequency(x.getFrequency() + y.getFrequency());
         
